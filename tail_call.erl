@@ -31,6 +31,7 @@ bad_fib(N) ->
 
 fibonacci_test_() ->
     [
+     %% some basic fibonacci tests (for the first 8 numbers)
      ?_assertEqual(0,fibonacci(1)),
      ?_assertEqual(1,fibonacci(2)),
      ?_assertEqual(1,fibonacci(3)),
@@ -39,10 +40,16 @@ fibonacci_test_() ->
      ?_assertEqual(5,fibonacci(6)),
      ?_assertEqual(8,fibonacci(7)),
      ?_assertEqual(13,fibonacci(8)),
+
+     %% calculate the first 40 fibonacci numbers with both algorithms and
+     %% confirm both answers are the same
+     %% note the huge growth in time once you get above fibonacci(35)
      lists:map(fun(X) ->
 		       {lists:flatten(io_lib:format("naive and tail-call are equal at ~p",[X])),
 			?_assertEqual(bad_fib(X),fibonacci(X))}
 	       end,lists:seq(1,40)),
+     %% confirm that the tail-call version can calculate the first 1000
+     %% fibonacci numbers, each in less than 2ms
      lists:map(fun(X) ->
 		       {lists:flatten(io_lib:format("tail-call is fast at ~p",[X])),
 			fun() ->
